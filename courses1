@@ -2,25 +2,19 @@ function scoreAll(){
 
 const listeningQuestions =
 parseInt(
-document.getElementById(
-"listeningCount"
-).value
-)||0;
+document.getElementById("listeningCount").value
+) || 0;
 
 const readingQuestions =
 parseInt(
-document.getElementById(
-"readingCount"
-).value
-)||0;
+document.getElementById("readingCount").value
+) || 0;
 
 if(
-listeningQuestions<=0 ||
-readingQuestions<=0
+listeningQuestions <= 0 ||
+readingQuestions <= 0
 ){
-msg(
-"❌ Vui lòng nhập số câu Listening và Reading"
-);
+msg("❌ Vui lòng nhập số câu Listening và Reading");
 return;
 }
 
@@ -28,43 +22,35 @@ results=[];
 
 students.forEach(st=>{
 
-const key =
-answerKeys[st.code];
+const key = answerKeys[st.code];
 
 if(!key){
 
 results.push({
-
 sbd:st.sbd,
 code:st.code,
 status:"Lỗi mã đề"
-
 });
 
 return;
-
 }
 
-let listeningCorrect=0;
-let readingCorrect=0;
+let listeningCorrect = 0;
+let readingCorrect = 0;
 
 questionCols.forEach((q,index)=>{
 
 const studentAns =
-String(
-st.row[q.col]||''
-)
+String(st.row[q.col]||'')
 .trim()
 .toUpperCase();
 
 const correctAns =
-String(
-key[index]||''
-)
+String(key[index]||'')
 .trim()
 .toUpperCase();
 
-if(studentAns===correctAns){
+if(studentAns === correctAns){
 
 if(index < listeningQuestions){
 
@@ -80,32 +66,24 @@ readingCorrect++;
 
 });
 
-const listeningPointPerQuestion =
-10 / listeningQuestions;
-
-const readingPointPerQuestion =
-10 / readingQuestions;
-
 const listeningScore =
 (
 listeningCorrect *
-listeningPointPerQuestion
+(10/listeningQuestions)
 ).toFixed(2);
 
 const readingScore =
 (
 readingCorrect *
-readingPointPerQuestion
+(10/readingQuestions)
 ).toFixed(2);
 
 results.push({
 
 sbd:st.sbd,
-
 code:st.code,
 
 listening:listeningScore,
-
 listeningCorrect,
 
 listeningPercent:
@@ -113,10 +91,9 @@ listeningPercent:
 listeningCorrect /
 listeningQuestions *
 100
-).toFixed(1)+"%",
+).toFixed(1) + "%",
 
 reading:readingScore,
-
 readingCorrect,
 
 readingPercent:
@@ -124,7 +101,7 @@ readingPercent:
 readingCorrect /
 readingQuestions *
 100
-).toFixed(1)+"%",
+).toFixed(1) + "%",
 
 status:"OK"
 
@@ -133,5 +110,9 @@ status:"OK"
 });
 
 render();
+
+msg(
+`✅ Đã chấm ${results.length} sinh viên`
+);
 
 }
